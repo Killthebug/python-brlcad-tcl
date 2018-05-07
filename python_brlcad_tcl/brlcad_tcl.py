@@ -871,8 +871,22 @@ class brlcad_tcl():
     def Cylinder_parabolic(self, name, rpc, vertex, height_vector, bvector, half_width):
         is_string(name)
 
-    def Ellipsoid(self, name, ell, vertex, avector, bvector, cvector):
+    def Ellipsoid(self, name, vertex, avector, bvector, cvector):
         is_string(name)
+        is_truple(vertex)
+        is_truple(avector)
+        is_truple(bvector)
+        is_truple(cvector)
+        v1, v2, v3 = vertex
+        a1, a2, a3 = avector
+        b1, b2, b3 = bvector
+        c1, c2, c3 = cvector
+        self.script_string_list.append('in {} ell {} {} {} {} {} {} {} {} {} {} {} {}\n'.format(name,
+                                                                     v1, v2, v3,
+                                                                     a1, a2, a3,
+                                                                     b1, b2, b3,
+                                                                     c1, c2, c3))
+        return name
 
     def Hyperboloid_elliptical(self, name, ehy, vertex, height_vector, avector, bscalar, apex_to_asymptote):
         is_string(name)
