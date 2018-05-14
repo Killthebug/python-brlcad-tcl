@@ -692,6 +692,10 @@ class brlcad_tcl():
         self.script_string_list.append( 'accept\n')
         # self.script_string_list.append( 'Z\n')
 
+    def repeated_error(self, name, primitive, myList):
+        print "Invalid Vertices :", myList
+        sys.exit("Error : Vertices should be unique in : {} {} ".format(primitive, name))
+
     def kill(self, name):
         if isinstance(name, list):
             for _name in name:
@@ -806,6 +810,10 @@ class brlcad_tcl():
         is_string(name)
         name = self._default_name_(name)
         [is_truple(v) for v in [v1, v2, v3, v4]]
+        myList = [v1, v2, v3, v4]
+        mySet = set(myList)
+        if len(mySet) != len(myList):
+            self.repeated_error(name, "arb4", myList)
         vs = [str(v) for xyz in [v1, v2, v3, v4] for v in xyz]
         assert len(vs)==4*3
         self.script_string_list.append( 'in {} arb4 {}\n'.format(name,
@@ -816,6 +824,10 @@ class brlcad_tcl():
         is_string(name)
         name = self._default_name_(name)
         [is_truple(v) for v in [v1, v2, v3, v4, v5]]
+        myList = [v1, v2, v3, v4, v5]
+        mySet = set(myList)
+        if len(mySet) != len(myList):
+            self.repeated_error(name, "arb5", myList)
         vs = [str(v) for xyz in [v1, v2, v3, v4, v5] for v in xyz]
         assert len(vs)==5*3
         self.script_string_list.append( 'in {} arb5 {}\n'.format(name,
@@ -826,6 +838,10 @@ class brlcad_tcl():
         is_string(name)
         name = self._default_name_(name)
         [is_truple(v) for v in [v1, v2, v3, v4, v5, v6]]
+        myList = [v1, v2, v3, v4, v5, v6]
+        mySet = set(myList)
+        if len(mySet) != len(myList):
+            self.repeated_error(name, "arb6", myList)
         vs = [str(v) for xyz in [v1, v2, v3, v4, v5, v6] for v in xyz]
         assert len(vs)==6*3
         self.script_string_list.append( 'in {} arb6 {}\n'.format(name,
@@ -836,6 +852,10 @@ class brlcad_tcl():
         is_string(name)
         name = self._default_name_(name)
         [is_truple(v) for v in [v1, v2, v3, v4, v5, v6, v7]]
+        myList = [v1, v2, v3, v4, v5, v6, v7]
+        mySet = set(myList)
+        if len(mySet) != len(myList):
+            self.repeated_error(name, "arb7", myList)
         vs = [str(v) for xyz in [v1, v2, v3, v4, v5, v6, v7] for v in xyz]
         assert len(vs)==7*3
         self.script_string_list.append( 'in {} arb7 {}\n'.format(name,
