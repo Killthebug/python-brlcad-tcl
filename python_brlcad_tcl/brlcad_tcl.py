@@ -805,13 +805,21 @@ class brlcad_tcl():
     def arb4(self, name, v1, v2, v3, v4):
         is_string(name)
         name = self._default_name_(name)
-
+        [is_truple(v) for v in [v1, v2, v3, v4]]
+        vs = [str(v) for xyz in [v1, v2, v3, v4] for v in xyz]
+        assert len(vs)==4*3
+        self.script_string_list.append( 'in {} arb4 {}\n'.format(name,
+                                                       ' '.join(vs)))
         return name
 
     def arb5(self, name, v1, v2, v3, v4, v5):
         is_string(name)
         name = self._default_name_(name)
-        
+        [is_truple(v) for v in [v1, v2, v3, v4, v5]]
+        vs = [str(v) for xyz in [v1, v2, v3, v4, v5] for v in xyz]
+        assert len(vs)==5*3
+        self.script_string_list.append( 'in {} arb5 {}\n'.format(name,
+                                                       ' '.join(vs)))
         return name
 
     def arb6(self, name, v1, v2, v3, v4, v5, v6):
@@ -827,6 +835,12 @@ class brlcad_tcl():
     def arb7(self, name, v1, v2, v3, v4, v5, v6, v7):
         is_string(name)
         name = self._default_name_(name)
+        [is_truple(v) for v in [v1, v2, v3, v4, v5, v6, v7]]
+        vs = [str(v) for xyz in [v1, v2, v3, v4, v5, v6, v7] for v in xyz]
+        assert len(vs)==7*3
+        self.script_string_list.append( 'in {} arb7 {}\n'.format(name,
+                                                       ' '.join(vs)))
+        return name
 
     def arb8(self, name, points):
         name = self._default_name_(name)
