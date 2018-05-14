@@ -33,6 +33,9 @@ class polyhedron_example(BrlCadModel):
 
 		def draw_arb7(name, v1, v2, v3, v4, v5, v6, v7):
 			brl_db.arb7(name, v1, v2, v3, v4, v5, v6, v7)
+
+		def draw_arb8(name, v1, v2, v3, v4, v5, v6, v7, v8):
+			brl_db.arb8(name, v1, v2, v3, v4,v5, v6, v7, v8)
 		
 		first = draw_arb4("tetrahedra", a, b, c, d)
 		second = draw_arb5("quadrahedra", a, b, c, d, e)
