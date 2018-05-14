@@ -1,3 +1,5 @@
+# To run : python -m examples.arb_example <<name>>.tcl
+
 import sys
 import sys
 import os
