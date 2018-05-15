@@ -60,6 +60,9 @@ def is_truple(arg):
 def is_number(arg):
     assert(isinstance(arg, numbers.Number))
 
+def is_ratio(arg):
+    assert(isinstance(arg, numbers.Number) and arg > 0)
+
 
 def two_plus_strings(*args):
     assert(len(args)>2)
@@ -721,6 +724,31 @@ class brlcad_tcl():
                 function_name, lines, index) = inspect.getouterframes(inspect.currentframe())[1]
             raise Exception('name: {} already used! (in file: {}, line: {}, function-name: {})'.format(name, filename, line_number, function_name))
     
+    def tec(self, name, vertex, height_vector, major_axis, minor_axis, ratio):
+        name = self._default_name_(name)
+        is_string(name)
+        is_truple(vertex)
+        is_truple(height_vector)
+        is_truple(major_axis)
+        is_truple(minor_axis)
+        is_ratio(ratio)
+        
+        vx, vy, vz = vertex
+        hx, hy, hz = height_vector
+        ax, ay, az = major_axis
+        bx, by, bz = minor_axis
+        self.script_string_list.append( 'in {} tec {} {} {} '\
+                                       ' {} {} {}'\
+                                       ' {} {} {}'\
+                                       ' {} {} {}'\
+                                       ' {}\n'.format(name,
+                                                         vx, vy, vz,
+                                                         hx, hy, hz,
+                                                         ax, ay, az,
+                                                         bx, by, bz,
+                                                         ratio))
+        return name
+
     def tgc(self, name, base, height,
             ellipse_base_radius_part_A, ellipse_base_radius_part_B,
             top_radius_scaling_A, top_radius_scaling_B):
@@ -884,10 +912,11 @@ class brlcad_tcl():
             #Execute it
             arbFunction(name, *vList)
         
-    def Cone(self, name, trc, vertex, height_vector, base_radius, top_radius):
+    def cone(self, name, trc, vertex, height_vector, base_radius, top_radius):
         is_string(name)
 
-    def Cone_elliptical(self, name, tec, vertex, height_vector, major_axis, minor_axis, ratio):
+    def cone_elliptical(self, name, vertex, height_vector, major_axis, minor_axis, ratio):
+        return self.tec(name, vertex, height_vector, major_axis, minor_axis, ratio)
         is_string(name)
 
     def cone_general(self, name, vertex, height_vector, avector, bvector, cscalar, dscalar):
