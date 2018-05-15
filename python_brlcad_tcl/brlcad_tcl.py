@@ -724,6 +724,24 @@ class brlcad_tcl():
                 function_name, lines, index) = inspect.getouterframes(inspect.currentframe())[1]
             raise Exception('name: {} already used! (in file: {}, line: {}, function-name: {})'.format(name, filename, line_number, function_name))
     
+    def trc(self, name, vertex, height_vector, base_radius, top_radius):
+        name = self._default_name_(name)
+        is_string(name)
+        is_truple(vertex)
+        is_truple(height_vector)
+        is_number(base_radius)
+        is_number(top_radius)
+
+        vx, vy, vz = vertex
+        hx, hy, hz = height_vector
+        self.script_string_list.append( 'in {} trc {} {} {} '\
+                                       ' {} {} {}'\
+                                       ' {} {}\n'.format(name,
+                                                         vx, vy, vz,
+                                                         hx, hy, hz,
+                                                         base_radius, top_radius))
+        return name
+
     def tec(self, name, vertex, height_vector, major_axis, minor_axis, ratio):
         name = self._default_name_(name)
         is_string(name)
@@ -912,7 +930,8 @@ class brlcad_tcl():
             #Execute it
             arbFunction(name, *vList)
         
-    def cone(self, name, trc, vertex, height_vector, base_radius, top_radius):
+    def cone(self, name, vertex, height_vector, base_radius, top_radius):
+        return self.trc(name, vertex, height_vector, base_radius, top_radius)
         is_string(name)
 
     def cone_elliptical(self, name, vertex, height_vector, major_axis, minor_axis, ratio):
