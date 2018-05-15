@@ -13,9 +13,12 @@ class cone_example(BrlCadModel):
 		a = (0, 0, 10)
 		b = (5, 0 , 0)
 		c = (0, 3, 0)
+		height_vector = (0, 0, 10)
 		ratio = 0.6
 		base_radius = 1
 		top_radius = 5
+		cscalar = 2
+		dscalar = 9
 
 		def draw_cone_elleptical(name, v, a, b, c, ratio):
 			brl_db.cone_elliptical("cone_elliptical", v, a, b, c, ratio)
@@ -23,8 +26,12 @@ class cone_example(BrlCadModel):
 		def draw_cone_trc(name, v, a, base_radius, top_radius):
 			brl_db.cone(name, v, a, base_radius, top_radius)
 
+		def draw_cone_general(name, v, height_vector, a, b, cscalar, dscalar):
+			brl_db.cone_general(name, v, height_vector, b, c, cscalar, dscalar)
+
 		draw_cone_elleptical("tec_cone", v, a, b, c, ratio)
 		draw_cone_trc("trc_cone", v, a, base_radius, top_radius)
+		draw_cone_general("gen_cone", v, height_vector, a, b, cscalar, dscalar)
 
 def main(argv):
 	with brlcad_tcl(argv[1], "My Database") as brl_db:
