@@ -796,6 +796,27 @@ class brlcad_tcl():
                                                          top_radius_scaling_B))
         return name
 
+    def rec(self, name, vertex, height_vector, major_axis, minor_axis):
+        name = self._default_name_(name)
+        is_string(name)
+        is_truple(vertex)
+        is_truple(height_vector)
+        is_truple(major_axis)
+        is_truple(minor_axis)
+
+        vx, vy, vz = vertex
+        ax, ay, az = major_axis
+        bx, by, bz = minor_axis
+        hx, hy, hz = height_vector
+        self.script_string_list.append( 'in {} rec {} {} {} '\
+                                       ' {} {} {}'\
+                                       ' {} {} {}'\
+                                       ' {} {} {}\n'.format(name,
+                                                         vx, vy, vz,
+                                                         hx, hy, hz,
+                                                         ax, ay, az,
+                                                         bx, by, bz))
+
     def rcc(self, name, base, height, radius):
         name = self._default_name_(name)
         is_string(name)
@@ -944,8 +965,8 @@ class brlcad_tcl():
     def cylinder(self, name, vertex, height_vector, radius):
         return self.rcc(name, vertex, height_vector, radius)
 
-    def Cylinder_elliptical(self, name, rec, vertex, height_vector, major_axis, minor_axis):
-        is_string(name)
+    def cylinder_elliptical(self, name, vertex, height_vector, major_axis, minor_axis):
+        return self.rec(name, vertex, height_vector, major_axis, minor_axis)
 
     def Cylinder_hyperbolic(self, name, rhc,vertex, height_vector, bvector, half_width, apex_to_asymptote):
         is_string(name)
