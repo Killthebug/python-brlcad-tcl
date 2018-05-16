@@ -11,18 +11,25 @@ class cylinder_example(BrlCadModel):
 		super(cylinder_example, self).__init__(brl_db)
 		v = (0, 0, 0)
 		height_vector = (3, 3, 10)
+		height_alt = (0, 0, 10)
+		b = (0, 1, 0)
 		major_axis = (10, 0, 0)
 		minor_axis = (0, 3, 0)
-		ratio = 0.6
-		base_radius = 1
-		top_radius = 5
-		cscalar = 2
-		dscalar = 9
+		half_width = 1
+		apex_to_asymptote = 3
 
 		def draw_cylinder_elliptical(name, v, height, major_axis, minor_axis):
 			brl_db.cylinder_elliptical(name, v, height, major_axis, minor_axis)
 
+		def draw_cylinder_hyperbolic(name, v, height, bvector, half_width, apex_to_asymptote):
+			brl_db.cylinder_hyperbolic(name, v, height, bvector, half_width, apex_to_asymptote)
+
+		def draw_cylinder_parabolic(name, v, height, bvector, half_width):
+			brl_db.cylinder_parabolic(name, v, height, bvector, half_width)
+
 		draw_cylinder_elliptical("rec_cylinder", v, height_vector, major_axis, minor_axis)
+		draw_cylinder_hyperbolic("rhc_cylinder", v, height_alt, b, half_width, apex_to_asymptote)
+		draw_cylinder_parabolic("rpc_cylinder", v, height_alt, b, half_width )
 
 def main(argv):
 	with brlcad_tcl(argv[1], "My Database") as brl_db:

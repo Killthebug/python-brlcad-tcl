@@ -796,6 +796,28 @@ class brlcad_tcl():
                                                          top_radius_scaling_B))
         return name
 
+    def rhc(self, name, vertex, height_vector, bvector, half_width, apex_to_asymptote):
+        name = self._default_name_(name)
+        is_string(name)
+        is_truple(vertex)
+        is_truple(height_vector)
+        is_truple(bvector)
+        is_number(half_width)
+        is_number(apex_to_asymptote)
+
+        vx, vy, vz = vertex
+        bx, by, bz = bvector
+        hx, hy, hz = height_vector
+
+        self.script_string_list.append( 'in {} rhc {} {} {} '\
+                                       ' {} {} {}'\
+                                       ' {} {} {}'\
+                                       ' {} {}\n'.format(name,
+                                                         vx, vy, vz,
+                                                         hx, hy, hz,
+                                                         bx, by, bz,
+                                                         half_width, apex_to_asymptote))
+
     def rec(self, name, vertex, height_vector, major_axis, minor_axis):
         name = self._default_name_(name)
         is_string(name)
@@ -968,10 +990,12 @@ class brlcad_tcl():
     def cylinder_elliptical(self, name, vertex, height_vector, major_axis, minor_axis):
         return self.rec(name, vertex, height_vector, major_axis, minor_axis)
 
-    def Cylinder_hyperbolic(self, name, rhc,vertex, height_vector, bvector, half_width, apex_to_asymptote):
+    def cylinder_hyperbolic(self, name, vertex, height_vector, bvector, half_width, apex_to_asymptote):
+        return self.rhc(name, vertex, height_vector, bvector, half_width, apex_to_asymptote)
         is_string(name)
 
-    def Cylinder_parabolic(self, name, rpc, vertex, height_vector, bvector, half_width):
+    def cylinder_parabolic(self, name, vertex, height_vector, bvector, half_width):
+        return self.rpc(name, vertex, height_vector, bvector, half_width)
         is_string(name)
 
     def Ellipsoid(self, name, vertex, avector, bvector, cvector):
