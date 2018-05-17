@@ -892,6 +892,27 @@ class brlcad_tcl():
                                                                      minz,maxz))
         return name
 
+    def epa(self, name, vertex, height_vector, avector, bscalar):
+        name = self._default_name_(name)
+        is_string(name)
+        is_truple(height_vector)
+        is_truple(avector)
+        is_number(bscalar)
+
+        vx, vy, vz = vertex
+        hx, hy, hz = height_vector
+        ax, ay, az = avector
+
+        self.script_string_list.append( 'in {} epa {} {} {} '\
+                                       ' {} {} {}'\
+                                       ' {} {} {}'\
+                                       ' {}\n'.format(name,
+                                                         vx, vy, vz,
+                                                         hx, hy, hz,
+                                                         ax, ay, az,
+                                                         bscalar))                
+        return name
+
     def ehy(self, name, vertex, height_vector, avector, bscalar, apex_to_asymptote):
         name = self._default_name_(name)
         is_string(name)
@@ -1041,8 +1062,8 @@ class brlcad_tcl():
     def elliptical_hyperboloid(self, name, vertex, height_vector, avector, bscalar, apex_to_asymptote):
         return self.ehy(name, vertex, height_vector, avector, bscalar, apex_to_asymptote)
 
-    def Paraboloid_elliptical(self, name, epa, vertex, height_vector, avector, bscalar):
-        is_string(name)
+    def elliptical_paraboloid(self, name, vertex, height_vector, avector, bscalar):
+        return self.epa(name, vertex, height_vector, avector, bscalar)
 
     def Ellipsoid_radius(self, name, ell1, vertex, radius):
         is_string(name)

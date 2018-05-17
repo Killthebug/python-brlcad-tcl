@@ -18,7 +18,11 @@ class ellipsoid_example(BrlCadModel):
 		def draw_elliptical_hyperboloid(name, v, height, avector, bscalar, apex_to_asymptote):
 			brl_db.elliptical_hyperboloid(name, v, height, avector, bscalar, apex_to_asymptote)
 
+		def draw_elliptical_paraboloid(name, v, height, avector, bscalar):
+			brl_db.elliptical_paraboloid(name, v, height, avector, bscalar)
+
 		draw_elliptical_hyperboloid("ehy_ellipsoid", v, height_vector, a, bscalar, apex_to_asymptote)
+		draw_elliptical_paraboloid("epa_ellipsoid", v, height_vector, a, bscalar)
 
 def main(argv):
 	with brlcad_tcl(argv[1], "My Database") as brl_db:
