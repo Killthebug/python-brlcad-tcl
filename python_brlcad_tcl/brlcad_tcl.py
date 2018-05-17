@@ -892,6 +892,29 @@ class brlcad_tcl():
                                                                      minz,maxz))
         return name
 
+    def ehy(self, name, vertex, height_vector, avector, bscalar, apex_to_asymptote):
+        name = self._default_name_(name)
+        is_string(name)
+        is_truple(height_vector)
+        is_truple(avector)
+        is_number(bscalar)
+        is_number(apex_to_asymptote)
+
+        vx, vy, vz = vertex
+        hx, hy, hz = height_vector
+        ax, ay, az = avector
+
+        self.script_string_list.append( 'in {} ehy {} {} {} '\
+                                       ' {} {} {}'\
+                                       ' {} {} {}'\
+                                       ' {} {}\n'.format(name,
+                                                         vx, vy, vz,
+                                                         hx, hy, hz,
+                                                         ax, ay, az,
+                                                         bscalar,
+                                                         apex_to_asymptote))                
+        return name
+
     def cuboid(self, corner_point, opposing_corner_point, name=None):
         return self.rpp(name, corner_point, opposing_corner_point)
 
@@ -1004,19 +1027,19 @@ class brlcad_tcl():
         is_truple(avector)
         is_truple(bvector)
         is_truple(cvector)
-        v1, v2, v3 = vertex
-        a1, a2, a3 = avector
-        b1, b2, b3 = bvector
-        c1, c2, c3 = cvector
+        vx, vy, vz = vertex
+        ax, ay, az = avector
+        bx, by, bz = bvector
+        cx, cy, cz = cvector
         self.script_string_list.append('in {} ell {} {} {} {} {} {} {} {} {} {} {} {}\n'.format(name,
-                                                                     v1, v2, v3,
-                                                                     a1, a2, a3,
-                                                                     b1, b2, b3,
-                                                                     c1, c2, c3))
+                                                                     vx, vy, vz,
+                                                                     ax, ay, az,
+                                                                     bx, by, bz,
+                                                                     cx, cy, cz))
         return name
 
-    def Hyperboloid_elliptical(self, name, ehy, vertex, height_vector, avector, bscalar, apex_to_asymptote):
-        is_string(name)
+    def elliptical_hyperboloid(self, name, vertex, height_vector, avector, bscalar, apex_to_asymptote):
+        return self.ehy(name, vertex, height_vector, avector, bscalar, apex_to_asymptote)
 
     def Paraboloid_elliptical(self, name, epa, vertex, height_vector, avector, bscalar):
         is_string(name)
