@@ -936,6 +936,24 @@ class brlcad_tcl():
                                                          apex_to_asymptote))                
         return name
 
+    def ell1(self, name, vertex, avector, radius):
+        name = self._default_name_(name)
+        is_string(name)
+        is_truple(vertex)
+        is_number(radius)
+
+        vx, vy, vz = vertex
+        ax, ay, az = avector
+
+        self.script_string_list.append( 'in {} ell1 {} {} {}\
+                                                    {} {} {}\
+                                                    {}\n'.format(name,
+                                                                vx, vy, vz,
+                                                                ax, ay, az,
+                                                                radius))
+
+        return name
+
     def cuboid(self, corner_point, opposing_corner_point, name=None):
         return self.rpp(name, corner_point, opposing_corner_point)
 
@@ -1065,8 +1083,8 @@ class brlcad_tcl():
     def elliptical_paraboloid(self, name, vertex, height_vector, avector, bscalar):
         return self.epa(name, vertex, height_vector, avector, bscalar)
 
-    def Ellipsoid_radius(self, name, ell1, vertex, radius):
-        is_string(name)
+    def radius_ellipsoid(self, name, vertex, avector, radius):
+        return self.ell1(name, vertex, avector, radius)
 
     def Particle(self, name, part, vertex, height_vector, radius_at_v_end, radius_at_h_end):
         is_string(name)
