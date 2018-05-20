@@ -954,6 +954,28 @@ class brlcad_tcl():
 
         return name
 
+    def part(self, name, vertex, height_vector, radius_at_v_end, radius_at_h_end):
+        name = self._default_name_(name)
+        is_string(name)
+        is_truple(vertex)
+        is_truple(height_vector)
+        is_number(radius_at_v_end)
+        is_number(radius_at_h_end)
+
+        vx, vy, vz = vertex
+        hx, hy, hz = height_vector
+
+        self.script_string_list.append( 'in {} part {} {} {}\
+                                                    {} {} {}\
+                                                    {}\
+                                                    {}\n'.format(name,
+                                                                vx, vy, vz,
+                                                                hx, hy, hz,
+                                                                radius_at_v_end,
+                                                                radius_at_h_end))
+
+        return name
+
     def cuboid(self, corner_point, opposing_corner_point, name=None):
         return self.rpp(name, corner_point, opposing_corner_point)
 
@@ -1086,8 +1108,8 @@ class brlcad_tcl():
     def radius_ellipsoid(self, name, vertex, avector, radius):
         return self.ell1(name, vertex, avector, radius)
 
-    def Particle(self, name, part, vertex, height_vector, radius_at_v_end, radius_at_h_end):
-        is_string(name)
+    def particle(self, name, vertex, height_vector, radius_at_v_end, radius_at_h_end):
+        return self.part(name, vertex, height_vector, radius_at_v_end, radius_at_h_end)
 
     def sph(self, name, vertex, radius):
         name = self._default_name_(name)
