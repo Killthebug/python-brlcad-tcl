@@ -870,6 +870,27 @@ class brlcad_tcl():
                                                half_width))
         return name
 
+    def tor(self, name, vertex, normal, radius_1, radius_2):
+        name = self._default_name_(name)
+        is_string(name)
+        is_truple(vertex)
+        is_truple(normal)
+        is_number(radius_1)
+        is_number(radius_2)
+
+        vx, vy, vz = vertex
+        nx, ny, nz = normal
+
+        self.script_string_list.append(  'in {} tor {} {} {}\
+                                                    {} {} {}\
+                                                    {} {}\n'.format(name,
+                                                                    vx, vy, vz,
+                                                                    nx, ny, nz,
+                                                                    radius_1,
+                                                                    radius_2))
+
+        return name
+
     def box_by_opposite_corners(self, name, pmin, pmax):
         return self.rpp(self, name, pmin, pmax)
 
@@ -890,6 +911,31 @@ class brlcad_tcl():
                                                                      minx,maxx,
                                                                      miny,maxy,
                                                                      minz,maxz))
+        return name
+
+    def eto(self, name, vertex, normal_vector, radius, cvector, axis):
+        name = self._default_name_(name)
+        is_truple(vertex)
+        is_truple(normal_vector)
+        is_truple(cvector)
+        is_number(radius)
+        is_number(axis)
+
+        vx, vy, vz = vertex
+        nx, ny, nz = normal_vector
+        cx, cy, cz = cvector
+
+        self.script_string_list.append(  'in {} eto {} {} {}\
+                                                    {} {} {}\
+                                                    {}\
+                                                    {} {} {}\
+                                                    {}\n'.format(name,
+                                                                vx, vy, vz,
+                                                                nx, ny, nz,
+                                                                radius,
+                                                                cx, cy, cz,
+                                                                axis))
+
         return name
 
     def epa(self, name, vertex, height_vector, avector, bscalar):
@@ -952,6 +998,17 @@ class brlcad_tcl():
                                                                 ax, ay, az,
                                                                 radius))
 
+        return name
+
+    def sph(self, name, vertex, radius):
+        name = self._default_name_(name)
+        is_truple(vertex)
+        is_number(radius)
+        
+        x, y, z = vertex
+        
+        self.script_string_list.append( 'in {} sph {} {} {} {}'.format(name, x, y, z, radius))
+        
         return name
 
     def part(self, name, vertex, height_vector, radius_at_v_end, radius_at_h_end):
@@ -1111,23 +1168,15 @@ class brlcad_tcl():
     def particle(self, name, vertex, height_vector, radius_at_v_end, radius_at_h_end):
         return self.part(name, vertex, height_vector, radius_at_v_end, radius_at_h_end)
 
-    def sph(self, name, vertex, radius):
-        name = self._default_name_(name)
-        is_truple(vertex)
-        is_number(radius)
-        x, y, z = vertex
-        self.script_string_list.append( 'in {} sph {} {} {} {}'.format(name, x, y, z, radius))
-        return name
-
     def Sphere(self, name, vertex, radius):
         return self.sph(name, vertex, radius)
 
-    def Torus(self, name, tor, vertex, normal, radius_1, radius_2):
-        is_string(name)
+    def torus(self, name, vertex, normal, radius_1, radius_2):
+        return self.tor(name, vertex, normal, radius_1, radius_2)
 
-    def Torus_elliptical(self, name, eto, vertex, normal_vector, radius, cvector, axis):
-        is_string(name)
-
+    def torus_elliptical(self, name, vertex, normal_vector, radius, cvector, axis):
+        return self.eto(name, vertex, normal_vector, radius, cvector, axis)
+        
     def pipe_point(self, x, y, z, inner_diameter, outer_diameter, bend_radius):
         return OrderedDict(
                            [('x', x),
@@ -1146,10 +1195,13 @@ class brlcad_tcl():
 
         if isinstance(pipe_points[0], dict):
             points_str_list = ['{} {} {} {} {} {}'.format(*points.values()) for points in pipe_points]
+        
         # handle the way the hilbert_3d example from python-brlcad was using the Vector class
+        
         elif isinstance(pipe_points[0][0], vmath.vector.Vector):
             def rotate_tuple(x): d = deque(list(x)); d.rotate(2); return d
             points_str_list = ['{} {} {} {} {} {}'.format(*(list(points[0]) + list(rotate_tuple(points[1:]))) ) for points in pipe_points]
+        
         self.script_string_list.append( 'in {} pipe {} {}\n'.format(name, num_points, ' '.join(points_str_list)))
         """ # this worked for me as a spring
         in spring.s pipe 10 -500 -500 250 10 200 500 -500 500 350 100 200 500 500 500 450 100 200 500 500 -500 550 100 200 500 -500 -500 650 100 200 500 -500 500 750 100 200 500 500 500 850 100 200 500 500 -500 950 100 200 500 -500 -500 1050 100 200 500 -500 500 1150 100 200 500 0 500 1200 100 200 500
