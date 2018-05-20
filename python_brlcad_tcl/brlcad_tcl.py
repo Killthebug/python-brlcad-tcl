@@ -724,6 +724,26 @@ class brlcad_tcl():
                 function_name, lines, index) = inspect.getouterframes(inspect.currentframe())[1]
             raise Exception('name: {} already used! (in file: {}, line: {}, function-name: {})'.format(name, filename, line_number, function_name))
     
+    def grip(self, name, center, normal, magnitude):
+        name = self._default_name_(name)
+        is_string(name)
+        is_truple(center)
+        is_truple(normal)
+        is_number(magnitude)
+
+        cx, cy, cz = center
+        nx, ny, nz= normal
+
+        self.script_string_list.append(  'in {} grip {} {} {}\
+                                                     {} {} {}\
+                                                     {}\n'.format(name,
+                                                                cx, cy, cz,
+                                                                nx, ny, nz,
+                                                                magnitude))
+
+        return name
+
+
     def trc(self, name, vertex, height_vector, base_radius, top_radius):
         name = self._default_name_(name)
         is_string(name)
