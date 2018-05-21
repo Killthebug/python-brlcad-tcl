@@ -1133,6 +1133,20 @@ class brlcad_tcl():
             
             #Execute it
             arbFunction(name, *vList)
+
+    def half(self, name, normal, distance):
+        name = self._default_name_(name)
+        is_truple(normal)
+        is_number(distance)
+
+        nx, ny, nz = normal
+
+        self.script_string_list.append(  'in {} half {} {} {} {}\n'.format(name,
+                                                                        nx, ny, nz,
+                                                                        distance))
+
+        return name
+
         
     def cone(self, name, vertex, height_vector, base_radius, top_radius):
         return self.trc(name, vertex, height_vector, base_radius, top_radius)

@@ -12,12 +12,17 @@ class grip_example(BrlCadModel):
 
 		center = (0, 0, 0)
 		normal = (3, 0, 0)
+		new_normal = (1, 1, 1)
+		distance = 5
 		magnitude = 6
 
 		def draw_grip(name, center, normal, magnitude):
 			brl_db.grip(name, center, normal, magnitude)
 
+		def draw_half(name, normal, distance):
+			brl_db.half(name, normal, distance)
 
+		draw_half("Half_Example", new_normal, distance)
 		draw_grip("Grip_Example", center, normal, magnitude)
 
 def main(argv):
