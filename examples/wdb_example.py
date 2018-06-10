@@ -30,16 +30,15 @@ class wdb_example(BrlCadModel):
 
 		sphere = brl_db.Sphere("ball.s", v, radius)
 		box = brl_db.rpp("box.s", pmin, pmax)
-		brl_db.region('combined.s',
+		brl_db.region("combined.s",
 					  'u {} u {}'.format(box,
-											  sphere)
+										sphere)
 					  )
-		hole = brl_db.rcc('hole.s', hole_start, hole_depth, hole_radius)
+		hole = brl_db.rcc("hole.s", hole_start, hole_depth, hole_radius)
 
 def main(argv):
 	with brlcad_tcl(argv[1], "My Database") as brl_db:
 		example = wdb_example(brl_db)
-		
 	brl_db.save_g()
 	brl_db.save_stl(['example'])
 
